@@ -13,6 +13,14 @@ bool CustomLabelsLayer::setup(std::string const& value) {
 		labelCells->addObject(LabelCell::create(sets.name, sets.labelIndex, sets.typeIndex, sets.posIndex));
 	}
 
+	if (labelCells->count() == 0) {
+		auto noLabels = CCLabelBMFont::create("No Labels Added Yet", "bigFont.fnt");
+		noLabels->setPosition(winSize / 2);
+		noLabels->setScale(0.5f);
+		noLabels->setOpacity(100);
+		m_mainLayer->addChild(noLabels);
+	}
+
 	auto listView = ListView::create(labelCells, 35, 211, 155);
 	auto tableView = static_cast<TableView*>(listView->getChildren()->objectAtIndex(0));
 	auto contentLayer = static_cast<CCLayer*>(tableView->getChildren()->objectAtIndex(0));
@@ -36,6 +44,7 @@ bool CustomLabelsLayer::setup(std::string const& value) {
 
 	auto listLayer = GJCommentListLayer::create(listView, "Custom Labels", { 255, 0, 0 }, 211, 155, true);
 	listLayer->setPosition((winSize / 2) - (listLayer->getContentSize() / 2) - CCPoint((it >= 5) ? 6 : 0, 0));
+	listLayer->setZOrder(1);
 	m_mainLayer->addChild(listLayer);
 
 	listLayer->getChildByID("top-border")->setScaleX(0.62f);
@@ -51,6 +60,14 @@ bool CustomLabelsLayer::setup(std::string const& value) {
 
 	listLayer->getChildByID("left-border")->setScaleX(0.8f);
 	listLayer->getChildByID("left-border")->setPositionX(-5.45);
+
+	auto listBackground = CCScale9Sprite::create("square02b_001.png", { 0, 0, 80, 80 });
+	listBackground->setScale(0.7f);
+	listBackground->setColor({ 0,0,0 });
+	listBackground->setOpacity(75);
+	listBackground->setPosition(winSize / 2 + ccp(-0.11f - (it >= 5 ? 6 : 0), -0.5f));
+	listBackground->setContentSize({ 301.1f, 220.1f });
+	m_mainLayer->addChild(listBackground);
 
 	if (it >= 5) {
 		auto scrollbar = Scrollbar::create(listView->m_tableView);

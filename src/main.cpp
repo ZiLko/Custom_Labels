@@ -14,23 +14,22 @@ class $modify(PauseLayer) {
 	void customSetup() {
 		PauseLayer::customSetup();
 		auto winSize = CCDirector::sharedDirector()->getWinSize();
-		CCSprite* sprite = nullptr;
 
-		if (Loader::get()->isModLoaded("tpdea.betterpause-Better")) {
-			sprite = CCSprite::createWithSpriteFrameName("GJ_stopEditorBtn_001.png");
-		}
-		else {
-			sprite = CCSprite::createWithSpriteFrameName("GJ_playBtn2_001.png");
-			sprite->setScale(0.35f);
-		}
+		auto emptyBtn = CCSprite::createWithSpriteFrameName("GJ_plainBtn_001.png");
+        emptyBtn->setScale(0.75f);
+        auto btnIcon = CCSprite::create("button.png"_spr);
+        btnIcon->setPosition(emptyBtn->getContentSize() / 2 + ccp(1, 0));
+        btnIcon->setScale(0.225f);
+        emptyBtn->addChild(btnIcon);
 
-
-		auto btn = CCMenuItemSpriteExtra::create(sprite,
+		auto btn = CCMenuItemSpriteExtra::create(emptyBtn,
 			this,
 			menu_selector(CustomLabelsLayer::openMenu)
 		);
 
-		auto menu = this->getChildByID("right-button-menu");
+		auto menu = this->getChildByID("left-button-menu");
+		if (!menu) return;
+		
 		menu->addChild(btn);
 		menu->updateLayout();
 	}

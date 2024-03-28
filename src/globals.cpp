@@ -126,12 +126,25 @@ std::string LabelText::text(Labels& lb, PlayLayer* pl, const Label& element) {
 
 void Labels::save() {
     matjson::Value serializedData = matjson::Serialize<std::vector<Label>>::to_json(Labels::get().labels);
-    Mod::get()->setSavedValue("data2", serializedData);
+    Mod::get()->setSavedValue("labels", serializedData);
 }
 
 void Labels::load() {
     auto& lb = Labels::get();
-    matjson::Value serializedData = Mod::get()->getSavedValue<matjson::Value>("data2");
+
+    if (!Mod::get()->setSavedValue("example-label", true)) {
+        Label lbl;
+
+        lbl.text = "Hello There";
+        lbl.settings.posIndex = 2;
+        lbl.settings.labelIndex = 0;
+        lb.labels.push_back(lbl);
+
+        Labels::save();
+        return;
+    }
+
+    matjson::Value serializedData = Mod::get()->getSavedValue<matjson::Value>("labels");
 
     for (const auto& element : matjson::Serialize<std::vector<Label>>::from_json(serializedData)) {
         lb.labels.push_back(element);

@@ -7,5 +7,15 @@
 	"id": "zilko.custom_labels",
 	"name": "Custom Labels",
 	"developer": "Zilko",
-	"description": "Add fully customizable labels to your screen!"
+	"description": "Add fully customizable labels to your screen!",
+	"repository": "https://github.com/ZiLko/Custom_Labels",
+	"resources": {
+		"sprites": [
+			"resources/button.png"
+		]
+	},
+	"tags": [
+		"Utility",
+		"Gameplay"
+	]
 }
