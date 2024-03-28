@@ -1,0 +1,11 @@
+{
+	"geode": "2.0.0-beta.22",
+	"gd": {
+		"win": "2.204"
+	},
+	"version": "v1.0.0",
+	"id": "zilko.custom_labels",
+	"name": "Custom Labels",
+	"developer": "Zilko",
+	"description": "Add fully customizable labels to your screen!"
+}
