@@ -1,8 +1,8 @@
-# <cg>Custom Labels</c>
+# Custom Labels
 
-Add as <cl>many labels</c> as you want and <cj>customize</c> them how you want. 
+Add as <cl>many labels</c> as you want and <cg>customize</c> them however you want.
 
-# <cy>Labels</c>
+# Labels
 
 * Custom Text
 * Attempts
