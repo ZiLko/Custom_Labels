@@ -1,9 +1,9 @@
 #include "globals.hpp"
 #include <Geode/ui/ColorPickPopup.hpp>
 
-class CustomLabelSettings : public geode::Popup<> {
+class SettingsLayer : public geode::Popup<> {
+public:
     CCTextInputNode* labelNameInput = nullptr;
-    CCTextInputNode* customTextInput = nullptr;
 
     CCLabelBMFont* posLabel = nullptr;
     CCLabelBMFont* fontLabel = nullptr;
@@ -22,16 +22,8 @@ class CustomLabelSettings : public geode::Popup<> {
     int labelIndex;
     int fontIndex;
     int posIndex;
-protected:
-    bool setup() override;
 
-    static CustomLabelSettings* create(int labelIndex);
-
-public:
-    static void openMenu(int labelIndex);
     void openColorPicker(CCObject*);
-
-    void saveSettings(CCObject*);
 
     void switchPos(CCObject*);
     void switchFont(CCObject*);
@@ -40,32 +32,35 @@ public:
     void updateSize(CCObject*);
     void updateOffsetX(CCObject*);
     void updateOffsetY(CCObject*);
+
+    void refreshList();
 };
 
-class ClicksLabelSettings : public geode::Popup<> {
-    CCMenuItemToggler* cpsOnlyToggle = nullptr;
-    CCMenuItemToggler* totalClicksOnlyToggle = nullptr;
+class DefaultLabelSettings : public SettingsLayer {
+protected:
+    bool setup() override;
 
-    CCTextInputNode* labelNameInput = nullptr;
+    static DefaultLabelSettings* create(int labelIndex);
+public:
+    void saveSettings(CCObject*);
+    static void openMenu(int labelIndex);
+};
+
+class CustomLabelSettings : public SettingsLayer {
     CCTextInputNode* customTextInput = nullptr;
 
-    CCLabelBMFont* posLabel = nullptr;
-    CCLabelBMFont* fontLabel = nullptr;
-    CCLabelBMFont* opacityLabel = nullptr;
-    CCLabelBMFont* sizeLabel = nullptr;
-    CCLabelBMFont* offsetXLabel = nullptr;
-    CCLabelBMFont* offsetYLabel = nullptr;
+protected:
+    bool setup() override;
 
-    Slider* opacitySlider = nullptr;
-    Slider* sizeSlider = nullptr;
-    Slider* offsetYSlider = nullptr;
-    Slider* offsetXSlider = nullptr;
+    static CustomLabelSettings* create(int labelIndex);
+public:
+    void saveSettings(CCObject*);
+    static void openMenu(int labelIndex);
+};
 
-    ColorChannelSprite* colorSprite = nullptr;
-
-    int labelIndex;
-    int fontIndex;
-    int posIndex;
+class ClicksLabelSettings : public SettingsLayer {
+    CCMenuItemToggler* cpsOnlyToggle = nullptr;
+    CCMenuItemToggler* totalClicksOnlyToggle = nullptr;
 
     bool showCPSOnly;
     bool showTotalClicksOnly;
@@ -73,129 +68,16 @@ protected:
     bool setup() override;
 
     static ClicksLabelSettings* create(int labelIndex);
-
 public:
-    static void openMenu(int labelIndex);
-    void openColorPicker(CCObject*);
-    
     void saveSettings(CCObject*);
-
-    void switchPos(CCObject*);
-    void switchFont(CCObject*);
-
-    void updateOpacity(CCObject*);
-    void updateSize(CCObject*);
-    void updateOffsetX(CCObject*);
-    void updateOffsetY(CCObject*);
-
     void toggleCPSOnly(CCObject*);
     void toggleTotalClicksOnly(CCObject*);
-};
-
-class AttemptsLabelSettings : public geode::Popup<> {
-    CCTextInputNode* labelNameInput = nullptr;
-
-    CCLabelBMFont* posLabel = nullptr;
-    CCLabelBMFont* fontLabel = nullptr;
-    CCLabelBMFont* opacityLabel = nullptr;
-    CCLabelBMFont* sizeLabel = nullptr;
-    CCLabelBMFont* offsetXLabel = nullptr;
-    CCLabelBMFont* offsetYLabel = nullptr;
-
-    Slider* opacitySlider = nullptr;
-    Slider* sizeSlider = nullptr;
-    Slider* offsetYSlider = nullptr;
-    Slider* offsetXSlider = nullptr;
-
-    ColorChannelSprite* colorSprite = nullptr;
-
-    int labelIndex;
-    int fontIndex;
-    int posIndex;
-protected:
-    bool setup() override;
-
-    static AttemptsLabelSettings* create(int labelIndex);
-
-public:
     static void openMenu(int labelIndex);
-    void openColorPicker(CCObject*);
-
-    void saveSettings(CCObject*);
-
-    void switchPos(CCObject*);
-    void switchFont(CCObject*);
-
-    void updateOpacity(CCObject*);
-    void updateSize(CCObject*);
-    void updateOffsetX(CCObject*);
-    void updateOffsetY(CCObject*);
 };
 
-class TestmodeLabelSettings : public geode::Popup<> {
-    CCTextInputNode* labelNameInput = nullptr;
-
-    CCLabelBMFont* posLabel = nullptr;
-    CCLabelBMFont* fontLabel = nullptr;
-    CCLabelBMFont* opacityLabel = nullptr;
-    CCLabelBMFont* sizeLabel = nullptr;
-    CCLabelBMFont* offsetXLabel = nullptr;
-    CCLabelBMFont* offsetYLabel = nullptr;
-
-    Slider* opacitySlider = nullptr;
-    Slider* sizeSlider = nullptr;
-    Slider* offsetYSlider = nullptr;
-    Slider* offsetXSlider = nullptr;
-
-    ColorChannelSprite* colorSprite = nullptr;
-
-    int labelIndex;
-    int fontIndex;
-    int posIndex;
-protected:
-    bool setup() override;
-
-    static TestmodeLabelSettings* create(int labelIndex);
-
-public:
-    static void openMenu(int labelIndex);
-    void openColorPicker(CCObject*);
-
-    void saveSettings(CCObject*);
-
-    void switchPos(CCObject*);
-    void switchFont(CCObject*);
-
-    void updateOpacity(CCObject*);
-    void updateSize(CCObject*);
-    void updateOffsetX(CCObject*);
-    void updateOffsetY(CCObject*);
-};
-
-class TimeLabelSettings : public geode::Popup<> {
+class TimeLabelSettings : public SettingsLayer {
     CCMenuItemToggler* attemptTimeToggle = nullptr;
     CCMenuItemToggler* sessionTimeToggle = nullptr;
-
-    CCTextInputNode* labelNameInput = nullptr;
-    CCTextInputNode* customTextInput = nullptr;
-
-    CCLabelBMFont* posLabel = nullptr;
-    CCLabelBMFont* fontLabel = nullptr;
-    CCLabelBMFont* opacityLabel = nullptr;
-    CCLabelBMFont* sizeLabel = nullptr;
-    CCLabelBMFont* offsetXLabel = nullptr;
-    CCLabelBMFont* offsetYLabel = nullptr;
-
-    Slider* opacitySlider = nullptr;
-    Slider* sizeSlider = nullptr;
-    Slider* offsetYSlider = nullptr;
-    Slider* offsetXSlider = nullptr;
-
-    ColorChannelSprite* colorSprite = nullptr;
-
-    int labelIndex;
-    int fontIndex;
-    int posIndex;
 
     bool attemptTime;
     bool sessionTime;
@@ -205,97 +87,34 @@ protected:
     static TimeLabelSettings* create(int labelIndex);
 
 public:
-    static void openMenu(int labelIndex);
-    void openColorPicker(CCObject*);
-    
     void saveSettings(CCObject*);
-
-    void switchPos(CCObject*);
-    void switchFont(CCObject*);
-
-    void updateOpacity(CCObject*);
-    void updateSize(CCObject*);
-    void updateOffsetX(CCObject*);
-    void updateOffsetY(CCObject*);
-
     void toggleAttemptTime(CCObject*);
     void toggleSessionTime(CCObject*);
+    static void openMenu(int labelIndex);
 };
 
-class ClockLabelSettings : public geode::Popup<> {
+class ClockLabelSettings : public SettingsLayer {
     CCMenuItemToggler* toggle12h = nullptr;
     CCMenuItemToggler* toggle24h = nullptr;
 
-    CCTextInputNode* labelNameInput = nullptr;
-    CCTextInputNode* customTextInput = nullptr;
-
-    CCLabelBMFont* posLabel = nullptr;
-    CCLabelBMFont* fontLabel = nullptr;
-    CCLabelBMFont* opacityLabel = nullptr;
-    CCLabelBMFont* sizeLabel = nullptr;
-    CCLabelBMFont* offsetXLabel = nullptr;
-    CCLabelBMFont* offsetYLabel = nullptr;
-
-    Slider* opacitySlider = nullptr;
-    Slider* sizeSlider = nullptr;
-    Slider* offsetYSlider = nullptr;
-    Slider* offsetXSlider = nullptr;
-
-    ColorChannelSprite* colorSprite = nullptr;
-
-    int labelIndex;
-    int fontIndex;
-    int posIndex;
-
     bool format12H;
     bool format24H;
+
 protected:
     bool setup() override;
 
     static ClockLabelSettings* create(int labelIndex);
 
 public:
-    static void openMenu(int labelIndex);
-    void openColorPicker(CCObject*);
-    
     void saveSettings(CCObject*);
-
-    void switchPos(CCObject*);
-    void switchFont(CCObject*);
-
-    void updateOpacity(CCObject*);
-    void updateSize(CCObject*);
-    void updateOffsetX(CCObject*);
-    void updateOffsetY(CCObject*);
-
     void toggle12H(CCObject*);
     void toggle24H(CCObject*);
+    static void openMenu(int labelIndex);
 };
 
-class JumpsLabelSettings : public geode::Popup<> {
+class JumpsLabelSettings : public SettingsLayer {
     CCMenuItemToggler* attemptJumpsToggle = nullptr;
     CCMenuItemToggler* sessionJumpsToggle = nullptr;
-
-    CCTextInputNode* labelNameInput = nullptr;
-    CCTextInputNode* customTextInput = nullptr;
-
-    CCLabelBMFont* posLabel = nullptr;
-    CCLabelBMFont* fontLabel = nullptr;
-    CCLabelBMFont* opacityLabel = nullptr;
-    CCLabelBMFont* sizeLabel = nullptr;
-    CCLabelBMFont* offsetXLabel = nullptr;
-    CCLabelBMFont* offsetYLabel = nullptr;
-
-    Slider* opacitySlider = nullptr;
-    Slider* sizeSlider = nullptr;
-    Slider* offsetYSlider = nullptr;
-    Slider* offsetXSlider = nullptr;
-
-    ColorChannelSprite* colorSprite = nullptr;
-
-    int labelIndex;
-    int fontIndex;
-    int posIndex;
 
     bool attemptJumps;
     bool sessionJumps;
@@ -305,19 +124,11 @@ protected:
     static JumpsLabelSettings* create(int labelIndex);
 
 public:
-    static void openMenu(int labelIndex);
-    void openColorPicker(CCObject*);
     
     void saveSettings(CCObject*);
-
-    void switchPos(CCObject*);
-    void switchFont(CCObject*);
-
-    void updateOpacity(CCObject*);
-    void updateSize(CCObject*);
-    void updateOffsetX(CCObject*);
-    void updateOffsetY(CCObject*);
+    static void openMenu(int labelIndex);
 
     void toggleAttemptJumps(CCObject*);
     void toggleSessionJumps(CCObject*);
+
 };

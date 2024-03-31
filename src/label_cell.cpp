@@ -155,12 +155,6 @@ void LabelCell::openLabelSettings(CCObject*) {
         case CLICKS:
             ClicksLabelSettings::openMenu(labelIndex);
         break;
-        case ATTEMPTS:
-            AttemptsLabelSettings::openMenu(labelIndex);
-        break;
-        case TESTMODE:
-            TestmodeLabelSettings::openMenu(labelIndex);
-        break;
         case TIME:
             TimeLabelSettings::openMenu(labelIndex);
         break;
@@ -170,8 +164,11 @@ void LabelCell::openLabelSettings(CCObject*) {
         case JUMPS:
             JumpsLabelSettings::openMenu(labelIndex);
         break;
+        case ATTEMPTS:
+        case TESTMODE:
         case FPS:
-            AttemptsLabelSettings::openMenu(labelIndex); // Both have no extra settings so its fine
+        default:
+            DefaultLabelSettings::openMenu(labelIndex); 
         break;
     }
 }

@@ -1,7 +1,7 @@
 #include "setting_layers.hpp"
 #include "label_list_layer.hpp"
 
-bool AttemptsLabelSettings::setup() {
+bool DefaultLabelSettings::setup() {
     auto winSize = cocos2d::CCDirector::sharedDirector()->getWinSize();
     auto& lb = Labels::get();
     auto sets = lb.labels[labelIndex].settings;
@@ -43,7 +43,7 @@ bool AttemptsLabelSettings::setup() {
     auto btn = CCMenuItemSpriteExtra::create(
         btnSpr,
         this,
-        menu_selector(AttemptsLabelSettings::saveSettings)
+        menu_selector(DefaultLabelSettings::saveSettings)
     );
     btn->setPosition(winSize / 2 + ccp(0, -118));
 
@@ -59,7 +59,7 @@ bool AttemptsLabelSettings::setup() {
     btn = CCMenuItemSpriteExtra::create(
         colorSprite,
         this,
-        menu_selector(AttemptsLabelSettings::openColorPicker)
+        menu_selector(DefaultLabelSettings::openColorPicker)
     );
     btn->setPosition(winSize / 2 + ccp(166, -116));
     menu->addChild(btn);
@@ -81,7 +81,7 @@ bool AttemptsLabelSettings::setup() {
     btn = CCMenuItemSpriteExtra::create(
         spr,
         this,
-        menu_selector(AttemptsLabelSettings::switchPos)
+        menu_selector(DefaultLabelSettings::switchPos)
     );
     btn->setID("right");
     btn->setPosition(winSize / 2 + ccp(-37, 14));
@@ -93,7 +93,7 @@ bool AttemptsLabelSettings::setup() {
     btn = CCMenuItemSpriteExtra::create(
         spr,
         this,
-        menu_selector(AttemptsLabelSettings::switchPos)
+        menu_selector(DefaultLabelSettings::switchPos)
     );
     btn->setID("left");
     btn->setPosition(winSize / 2 + ccp(-142, 14));
@@ -116,7 +116,7 @@ bool AttemptsLabelSettings::setup() {
     btn = CCMenuItemSpriteExtra::create(
         spr,
         this,
-        menu_selector(AttemptsLabelSettings::switchFont)
+        menu_selector(DefaultLabelSettings::switchFont)
     );
     btn->setID("right");
     btn->setPosition(winSize / 2 + ccp(-37, -35));
@@ -128,7 +128,7 @@ bool AttemptsLabelSettings::setup() {
     btn = CCMenuItemSpriteExtra::create(
         spr,
         this,
-        menu_selector(AttemptsLabelSettings::switchFont)
+        menu_selector(DefaultLabelSettings::switchFont)
     );
     btn->setID("left");
     btn->setPosition(winSize / 2 + ccp(-142, -35));
@@ -141,7 +141,7 @@ bool AttemptsLabelSettings::setup() {
 
     opacitySlider = Slider::create(
         this,
-        menu_selector(AttemptsLabelSettings::updateOpacity),
+        menu_selector(DefaultLabelSettings::updateOpacity),
         0.8f
     );
     opacitySlider->setPosition(winSize / 2 + ccp(90, 18));
@@ -157,7 +157,7 @@ bool AttemptsLabelSettings::setup() {
 
     sizeSlider = Slider::create(
         this,
-        menu_selector(AttemptsLabelSettings::updateSize),
+        menu_selector(DefaultLabelSettings::updateSize),
         0.8f
     );
     sizeSlider->setPosition(winSize / 2 + ccp(90, -36));
@@ -173,7 +173,7 @@ bool AttemptsLabelSettings::setup() {
 
     offsetXSlider = Slider::create(
         this,
-        menu_selector(AttemptsLabelSettings::updateOffsetX),
+        menu_selector(DefaultLabelSettings::updateOffsetX),
         0.8f
     );
     offsetXSlider->setPosition(winSize / 2 + ccp(-90, -89));
@@ -189,7 +189,7 @@ bool AttemptsLabelSettings::setup() {
 
     offsetYSlider = Slider::create(
         this,
-        menu_selector(AttemptsLabelSettings::updateOffsetY),
+        menu_selector(DefaultLabelSettings::updateOffsetY),
         0.8f
     );
     offsetYSlider->setPosition(winSize / 2 + ccp(90, -89));
@@ -202,8 +202,8 @@ bool AttemptsLabelSettings::setup() {
     return true;
 }
 
-AttemptsLabelSettings* AttemptsLabelSettings::create(int labelIndex) {
-    auto ret = new AttemptsLabelSettings();
+DefaultLabelSettings* DefaultLabelSettings::create(int labelIndex) {
+    auto ret = new DefaultLabelSettings();
     ret->labelIndex = labelIndex;
     if (ret && ret->init(384, 286, "GJ_square02.png")) {
         ret->autorelease();
@@ -213,58 +213,7 @@ AttemptsLabelSettings* AttemptsLabelSettings::create(int labelIndex) {
     return nullptr;
 }
 
-void AttemptsLabelSettings::openMenu(int labelIndex) {
-    create(labelIndex)->show();
-}
-
-void AttemptsLabelSettings::updateOpacity(CCObject*) {
-    opacityLabel->setString(("Opacity (" + std::to_string(static_cast<int>(opacitySlider->getThumb()->getValue() * 100)) + "%)").c_str());
-}
-
-void AttemptsLabelSettings::updateSize(CCObject*) {
-    sizeLabel->setString(("Size (" + std::to_string(static_cast<int>(sizeSlider->getThumb()->getValue() * 500)) + "%)").c_str());
-}
-
-void AttemptsLabelSettings::updateOffsetX(CCObject*) {
-    offsetXLabel->setString(("OffsetX (" + std::to_string(static_cast<int>((offsetXSlider->getThumb()->getValue() * 400.f) - 200.f)) + "u)").c_str());
-}
-
-void AttemptsLabelSettings::updateOffsetY(CCObject*) {
-    offsetYLabel->setString(("OffsetY (" + std::to_string(static_cast<int>((offsetYSlider->getThumb()->getValue() * 400.f) - 200.f)) + "u)").c_str());
-}
-
-void AttemptsLabelSettings::switchPos(CCObject* obj) {
-    auto id = static_cast<CCNode*>(obj)->getID();
-    auto& lb = Labels::get();
-
-    posIndex += (id == "right") ? 1 : -1;
-
-    if (posIndex == -1) posIndex = 8;
-    else if (posIndex == 9) posIndex = 0;
-
-    posLabel->setString(positions[posIndex].c_str());
-}
-
-void AttemptsLabelSettings::switchFont(CCObject* obj) {
-    auto id = static_cast<CCNode*>(obj)->getID();
-    auto& lb = Labels::get();
-
-    fontIndex += (id == "right") ? 1 : -1;
-
-    if (fontIndex == 60) fontIndex = 0;
-    if (fontIndex == -1) fontIndex = 59;
-
-    fontLabel->removeFromParentAndCleanup(true);
-
-    auto winSize = cocos2d::CCDirector::sharedDirector()->getWinSize();
-
-    fontLabel = CCLabelBMFont::create(("Font " + std::to_string(fontIndex + 1)).c_str(), Labels::getFont(fontIndex).c_str());
-    fontLabel->setPosition(winSize / 2 + ccp(-90, -35));
-    fontLabel->setScale(0.455f);
-    m_mainLayer->addChild(fontLabel);
-}
-
-void AttemptsLabelSettings::saveSettings(CCObject*) {
+void DefaultLabelSettings::saveSettings(CCObject*) {
     keyBackClicked();
     auto& lb = Labels::get();
 
@@ -285,30 +234,11 @@ void AttemptsLabelSettings::saveSettings(CCObject*) {
 
     lb.labels[labelIndex].settings.color = colorSprite->getColor();
 
-    CCArray* children = CCDirector::sharedDirector()->getRunningScene()->getChildren();
-    CCObject* child;
-    CCARRAY_FOREACH(children, child) {
-        CustomLabelsLayer* layer = dynamic_cast<CustomLabelsLayer*>(child);
-        if (layer) {
-            if (lb.labels.size() >= 5) {
-                auto listLayer = static_cast<CCNode*>(layer->getChildren()->objectAtIndex(0))->getChildByID("GJCommentListLayer");
-                auto listView = static_cast<CCNode*>(static_cast<CCNode*>(listLayer)->getChildren()->objectAtIndex(0));
-                auto tableView = static_cast<CCNode*>(listView->getChildren()->objectAtIndex(0));
-                auto contentLayer = static_cast<CCLayer*>(tableView->getChildren()->objectAtIndex(0));
-
-                lb.previousScroll = contentLayer->getPositionY();
-            }
-
-            layer->refresh(lb.labels.size() >= 5);
-        }
-    }
-
+    refreshList();
     Labels::addLabels();
     Labels::save();
 }
 
-void AttemptsLabelSettings::openColorPicker(CCObject*) {
-    auto popup = ColorPickPopup::create(colorSprite->getColor());
-    popup->setColorTarget(colorSprite);
-    popup->show();
+void DefaultLabelSettings::openMenu(int labelIndex) {
+    create(labelIndex)->show();
 }

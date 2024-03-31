@@ -1,3 +1,4 @@
+#pragma once
 #include "label_cell.hpp"
 
 class CustomLabelsLayer : public geode::Popup<std::string const&> {

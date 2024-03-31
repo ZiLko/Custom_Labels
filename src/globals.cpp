@@ -8,18 +8,20 @@ std::string(*getText2[])(Labels&, PlayLayer*, const Label&) =
 std::string Labels::getFont(int index) {
     if (index <= 1)
         return index == 0 ? "bigFont.fnt" : "chatFont.fnt";
-    else if (index < 10) {
+    else if (index < 10)
         return "gjFont0" + std::to_string(index) + ".fnt";
-    }
-    else {
+    else
         return "gjFont" + std::to_string(index) + ".fnt";
-    }
 }
 
 void Labels::addLabels() {
+    if (!Mod::get()->getSettingValue<bool>("labels_enabled")) return;
+
     clear();
 
     PlayLayer* pl = PlayLayer::get();
+    if (!pl) return;
+
     auto& lb = Labels::get();
 
     if (lb.labels.empty()) return;
@@ -108,9 +110,11 @@ void Labels::addLabels() {
 
 void Labels::clear() {
     auto& lb = Labels::get();
+    PlayLayer* pl = PlayLayer::get();
+
     for (int i = 0; i < typesSize; i++) {
         for (const auto& element : lb.labelPointers[i]) {
-            element.pointer->removeFromParentAndCleanup(true);
+            if (pl) element.pointer->removeFromParentAndCleanup(true);
             delete element.pointer;
         }
         lb.labelPointers[i].clear();

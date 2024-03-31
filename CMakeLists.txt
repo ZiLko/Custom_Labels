@@ -8,14 +8,15 @@ project(CustomLabels VERSION 1.0.0)
 
 add_library(${PROJECT_NAME} SHARED
     src/main.cpp
+    src/custom_setting.cpp
     src/globals.cpp
     src/label_cell.cpp
     src/label_list_layer.cpp
     src/add_label_layer.cpp
+    src/settings_layer.cpp
+    src/default_label_settings.cpp
     src/custom_label_settings.cpp
     src/clicks_label_settings.cpp
-    src/attempts_label_settings.cpp
-    src/testmode_label_settings.cpp
     src/time_label_settings.cpp
     src/clock_label_settings.cpp
     src/jumps_label_settings.cpp

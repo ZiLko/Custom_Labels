@@ -1,4 +1,6 @@
 #include "label_list_layer.hpp"
+#include "custom_setting.hpp"
+
 #include <Geode/modify/PauseLayer.hpp>
 #include <Geode/modify/EndLevelLayer.hpp>
 #include <Geode/modify/PlayLayer.hpp>
@@ -13,14 +15,16 @@ std::string(*getText1[])(Labels&, PlayLayer*, const Label&) =
 class $modify(PauseLayer) {
 	void customSetup() {
 		PauseLayer::customSetup();
+		if (!Mod::get()->getSettingValue<bool>("button_enabled")) return;
+
 		auto winSize = CCDirector::sharedDirector()->getWinSize();
 
 		auto emptyBtn = CCSprite::createWithSpriteFrameName("GJ_plainBtn_001.png");
-        emptyBtn->setScale(0.75f);
-        auto btnIcon = CCSprite::create("button.png"_spr);
-        btnIcon->setPosition(emptyBtn->getContentSize() / 2 + ccp(1, 0));
-        btnIcon->setScale(0.225f);
-        emptyBtn->addChild(btnIcon);
+		emptyBtn->setScale(0.70f);
+		auto btnIcon = CCSprite::create("button.png"_spr);
+		btnIcon->setPosition(emptyBtn->getContentSize() / 2 + ccp(1, 0));
+		btnIcon->setScale(0.225f);
+		emptyBtn->addChild(btnIcon);
 
 		auto btn = CCMenuItemSpriteExtra::create(emptyBtn,
 			this,
@@ -29,7 +33,7 @@ class $modify(PauseLayer) {
 
 		auto menu = this->getChildByID("left-button-menu");
 		if (!menu) return;
-		
+
 		menu->addChild(btn);
 		menu->updateLayout();
 	}
@@ -132,10 +136,7 @@ class $modify(PlayLayer) {
 			for (const auto& element : lb.labelPointers[TIME]) {
 				if (!element.pointer) continue;
 
-				auto text = getText1[TIME](lb, this, element.label).c_str();
-
-				if (element.pointer->getString() != text)
-					element.pointer->setString(text);
+				element.pointer->setString(getText1[TIME](lb, this, element.label).c_str());
 			}
 		}
 
@@ -219,6 +220,10 @@ class $modify(CCScheduler) {
 	}
 };
 
-$execute {
+$execute{
 	Labels::load();
+}
+
+$on_mod(Loaded) {
+	Mod::get()->addCustomSetting<ButtonCustomSettingValue>("button_menu", "none");
 }

@@ -12,7 +12,7 @@ using namespace geode::prelude;
 const std::string positions[9] = {
     "Top Left", "Top Middle", "Top Right",
     "Middle Left", "Center", "Middle Right",
-    "Down Left", "Down Middle", "Down Right"
+    "Bottom Left", "Bottom Mid", "Bottom Right"
 };
 
 const int typesSize = 8;
